@@ -71,15 +71,16 @@ int main() {
     cudaEventRecord(start2);
 
     cublasGemmEx(handle,
-                 CUBLAS_OP_N, CUBLAS_OP_N,
-                 N, M, K,
-                 &alpha,
-                 d_B, CUDA_R_8I, N,
-                 d_A, CUDA_R_8I, K,
-                 &beta,
-                 d_C_tensor, CUDA_R_32I, N,
-                 CUDA_R_32I,
-                 CUBLAS_GEMM_DEFAULT);
+                CUBLAS_OP_N, CUBLAS_OP_N,    // A和B矩阵均不转置
+                N, M, K,                     // 计算 C = A × B 的矩阵维度：C(M×N) = A(M×K) × B(K×N)
+                &alpha,                      // alpha 缩放因子（结果 = alpha × A×B + beta × C）
+                d_B, CUDA_R_8I, N,           // B 矩阵设备指针，类型为 int8，列主序为（leading dimension 为 N）
+                d_A, CUDA_R_8I, K,           // A 矩阵设备指针，类型为 int8，列主序为（leading dimension 为 K） 
+                &beta,                       // beta 缩放因子（通常设为 0，忽略原始 C 值）
+                d_C_tensor, CUDA_R_32I, N,   // C 结果矩阵设备指针，类型为 int32，列主序（leading dimension 为 N）
+                CUDA_R_32I,                  // 计算中使用的精度类型（这里设为 int32）
+                CUBLAS_GEMM_DEFAULT_TENSOR_OP);  // 使用 Tensor Core
+
 
     cudaEventRecord(stop2);
     cudaEventSynchronize(stop2);

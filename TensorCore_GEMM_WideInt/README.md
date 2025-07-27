@@ -6,7 +6,7 @@
 
 ## 各阶段介绍
 
-**Stage 1：Tensor Core 入门测试（FP16, 16x16）**
+**Stage 1：Tensor Core 基本矩阵乘法（FP16, 16x16）**
 - 文件：`stage1_fp16_16x16_gemm.cu`
 - 说明：使用 WMMA API 编写 Tensor Core 的 FP16 tile 矩阵乘法，实现 C = A × B。
 - 目标：掌握最基本的 Tensor Core 调用方式。

@@ -94,6 +94,7 @@ int main() {
 
     const int32_t alpha = 1, beta = 0;
     float time_tensor_total = 0;
+    // 重复执行 REPEAT 次 GEMM
     for (int r = 0; r < REPEAT; ++r) {
         cudaEvent_t start2, stop2;
         cudaEventCreate(&start2); cudaEventCreate(&stop2);
